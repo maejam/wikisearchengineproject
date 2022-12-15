@@ -5,8 +5,8 @@ from pprint import pprint
 import sys, os
 
 CONVERGENCE_LIMIT = 0.001
-DEPTH = 4
-PERSONALIZED_INTEREST = "RNA"
+DEPTH = 2
+PERSONALIZED_INTEREST = None #"RNA"
 
 
 path = f"depth{DEPTH}"
@@ -62,6 +62,8 @@ iteration = 0
 while delta > CONVERGENCE_LIMIT: #TO COMPLETE (1 expression)
     iteration += 1
     print(iteration, ") Convergence delta: ", delta, sum(pageRanks), len(pageRanks))
+    # with open("convergence.txt", "a") as f:
+        # print(iteration, "\t", delta, sep="", file=f)
     pageRanksNew = surfStep(pageRanks, linksIdx) #TO COMPLETE (1 expression)
     jumpProba = sum(pageRanks) - sum(pageRanksNew) # what effect is detected here?
     if jumpProba < 0: # Technical artifact due to numerical errors
@@ -72,8 +74,8 @@ while delta > CONVERGENCE_LIMIT: #TO COMPLETE (1 expression)
     delta = numpy.linalg.norm(numpy.subtract(pageRanksNew, pageRanks), 1)
     pageRanks = pageRanksNew
 
-bestPages = [allPages[i] for i in numpy.argsort(pageRanks)[-200:]]
-bestPageRanks = [pageRanks[i] for i in numpy.argsort(pageRanks)[-200:]]
+bestPages = [allPages[i] for i in numpy.argsort(pageRanks)[-20:]]
+bestPageRanks = [pageRanks[i] for i in numpy.argsort(pageRanks)[-20:]]
 
 # Name the entries of the pageRank vector
 pageRankDict = dict()

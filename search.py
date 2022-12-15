@@ -9,12 +9,12 @@ import operator
 from stemming import stemmer, naive_stemmer
 from pprint import pprint
 
-DEPTH = 4 # Computed: 2 and 4
+DEPTH = 2 #
 STEMMING = stemmer.stem # False / naive_stemmer / stemmer.stem
 
 
 path = f"depth{DEPTH}"
-path2 = "nostemming" if not STEMMING else "naive_stemming" if STEMMING=="naive" else "stemming"
+path2 = "nostemming" if not STEMMING else "naive_stemming" if STEMMING=="naive_stemmer" else "stemming"
 
 try:
     with open(os.path.join(path, path2, "tfidf.dict"),'rb') as f:
