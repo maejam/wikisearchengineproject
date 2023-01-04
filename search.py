@@ -33,7 +33,7 @@ def normalize(vector: dict) -> dict:
     """ vector must be a dictionnary with numerical values. """
     vec = np.array(list(vector.values()))
     if np.linalg.norm(vec, 2)!=0.0:
-        normvec = vec / np.linalg.norm(vec, 2)
+        normvec = vec / np.linalg.norm(vec, 2) # en changeant la valeur de la norme ici, on peut se débarrasser de davantage de pages de type category
     else:
         normvec = [0] * len(vec)
     normVecDict = {key: value for key, value in zip(vector.keys(), normvec)}
@@ -41,7 +41,8 @@ def normalize(vector: dict) -> dict:
 
 print("Normalizing tf idf...\n")
 
-tfidfNorm = copy.deepcopy(tfidf)
+# un peu compliqué à mon sens pour faire cette normalisation
+tfidfNorm = copy.deepcopy(tfidf) 
 doctok = defaultdict(dict) # will store the tfidf indexed by documents.
 for token, docdict in tfidf.items():
     for doc, value in docdict.items():
@@ -68,7 +69,7 @@ def getBestResults(queryStr, topN, NormDocs=False, NormQuery=False):
     tfidf_query = dict()
     for token, occ in querycounter.items():
         tfidf_query[token] = (occ / sum(querycounter.values())) * tokInfo[token] # Because tokInfo is a defaultdict, no need to check if token exists as a key.
-    tfidf_queryNorm = normalize(tfidf_query)
+    tfidf_queryNorm = normalize(tfidf_query) # la normalisation de la query ne change rien à l'ordre des docs
 
 
     # Compute dot product between query and tfidfMatrix
