@@ -37,8 +37,8 @@ for xmlFile in xmlFiles:
 				docs[titles[0].text] = contents[0].text
 
 # Some regEx for parsing
-cleanExtLinks = "({{.*?}}|\[http.?:\/\/.*\])"
-linkRe = "\[\[(.*?)\]\]"
+cleanExtLinks = "({{.*?}}|\[http.?:\/\/.*\])" # Attention, il semble manquer un opérateur lazy pour le second http, il faudrait ({{.*?}}|\[http.?:\/\/.*?\])
+linkRe = "\[\[(.*?)\]\]" # Très bien de le faire en lazy mode
 removeLinkRe = "\[\[[^\]]+\|([^\|\]]+)\]\]"
 removeLink2Re =  "\[\[([^\|\]]+)\]\]"
 wordRe = "[a-zA-Z\-]+"
@@ -87,7 +87,7 @@ def create_doctok_matrix(docs):
             if word not in stopWords:
                 word = STEMMER(word)
                 doctok[doc] += [word]
-        doctok[doc] = Counter(doctok[doc]) # aggregating duplicates
+        doctok[doc] = Counter(doctok[doc]) # aggregating duplicates <- Nice :)
     return doctok
 
 
@@ -126,10 +126,10 @@ def build_tf_idf_table():
 
     for tok in tokdoc:
         tfidf[tok] = dict()
-        tokInfo[tok] = log(Ndocs / len(tokdoc[tok]), 2)
+        tokInfo[tok] = log(Ndocs / len(tokdoc[tok]), 2) # très bien, avec les counter ça ne compte pas la multiplicité
     for doc in docList:
         tf[doc] = dict()
-        tottokindoc = sum(doctok[doc].values()) #total number of tokens in a given document. Trying to win the prize for funniest sounding variable name :)
+        tottokindoc = sum(doctok[doc].values()) #total number of tokens in a given document. Trying to win the prize for funniest sounding variable name :)-> won.
         for tok in doctok[doc]:
             tokindoc = tokdoc[tok][doc] #nb of times a given token appears in a document.
 
